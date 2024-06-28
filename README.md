@@ -98,6 +98,7 @@ Instructions for `LSPosed` won't be provided here since it is unique for each de
 [Detailed Information](https://docs.google.com/spreadsheets/d/101wE-LjNJL-lSzZB96ifQAj3X-WmmA1ZIXKFTFRFJGY)
 
 [![Link](https://docs.google.com/spreadsheets/d/e/2PACX-1vQctXxwDqkSCNkFs_Ipgh4W0g4Z8dBoyTvJISN16lf7m-huOnfngVtnnNXmRe52oBp0sTtfxapFHN4y/pubchart?oid=847311911&format=image)](https://docs.google.com/spreadsheets/d/101wE-LjNJL-lSzZB96ifQAj3X-WmmA1ZIXKFTFRFJGY)
+[![Link](https://docs.google.com/spreadsheets/d/e/2PACX-1vQctXxwDqkSCNkFs_Ipgh4W0g4Z8dBoyTvJISN16lf7m-huOnfngVtnnNXmRe52oBp0sTtfxapFHN4y/pubchart?oid=1146010813&format=image)](https://docs.google.com/spreadsheets/d/101wE-LjNJL-lSzZB96ifQAj3X-WmmA1ZIXKFTFRFJGY)
 </div>
 
 # Localization Data
