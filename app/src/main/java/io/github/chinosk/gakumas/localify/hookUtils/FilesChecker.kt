@@ -141,15 +141,11 @@ object FilesChecker {
         val pluginBasePath = File(filesDir, localizationFilesDir)
         val localFilesDir = File(pluginBasePath, "local-files")
 
-        val fontFile = File(localFilesDir, "gkamsZHFontMIX.otf")
         val resourceDir = File(localFilesDir, "resource")
         val genericTransDir = File(localFilesDir, "genericTrans")
         val genericTransFile = File(localFilesDir, "generic.json")
         val i18nFile = File(localFilesDir, "localization.json")
 
-        if (fontFile.exists()) {
-            fontFile.delete()
-        }
         if (deleteRecursively(resourceDir)) {
             resourceDir.mkdirs()
         }

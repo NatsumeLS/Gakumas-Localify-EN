@@ -11,7 +11,7 @@
     <string name="live_custome_dress_id">Live Custom Dress ID (eg. hski-cstm-0002)</string>
     <string name="useCustomeGraphicSettings">Use Custom Graphic Settings</string>
     <string name="renderscale">Render Scale (0.5-1.0)</string>
-    <string name="text_hook_test_mode">Text Hook Test Mode (For Testing Only)</string>
+    <string name="text_hook_test_mode">Text Hook Test Mode</string>
     <string name="export_text">Export Text (For Collecting Strings)</string>
     <string name="force_export_resource">Force Update Resource</string>
     <string name="max_high">Max</string>
@@ -43,7 +43,7 @@
     <string name="axisx_y">axisX.y</string>
     <string name="axisy_y">axisY.y</string>
     <string name="axisz_y">axisZ.y</string>
-    <string name="basic_settings">Basic Ssettings</string>
+    <string name="basic_settings">Basic Settings</string>
     <string name="graphic_settings">Graphic Settings</string>
     <string name="camera_settings">Camera Settings</string>
     <string name="test_mode_live">Test Mode - LIVE</string>

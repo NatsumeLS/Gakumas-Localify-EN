@@ -14,7 +14,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModelProvider
 import io.github.chinosk.gakumas.localify.hookUtils.FileHotUpdater
-import io.github.chinosk.gakumas.localify.hookUtils.FilesChecker
 import io.github.chinosk.gakumas.localify.hookUtils.MainKeyEventDispatcher
 import io.github.chinosk.gakumas.localify.mainUtils.json
 import io.github.chinosk.gakumas.localify.models.GakumasConfig
@@ -73,8 +72,7 @@ class MainActivity : ComponentActivity(), ConfigUpdateListener, IConfigurableAct
         var resVersionText = "unknown"
 
         try {
-            val stream = assets.open("${FilesChecker.localizationFilesDir}/version.txt")
-            resVersionText = FilesChecker.convertToString(stream)
+            resVersionText = programConfigViewModel.localResourceVersion.value
 
             val packInfo = packageManager.getPackageInfo(packageName, 0)
             val version = packInfo.versionName

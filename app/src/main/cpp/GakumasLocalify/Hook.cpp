@@ -298,7 +298,7 @@ namespace GakumasLocal::HookMain {
     }
 
     std::unordered_set<void*> updatedFontPtrs{};
-    void UpdateFont(void* TMP_Text_this) {
+    void UpdateFont(void* TMP_Textself) {
         static auto get_font = Il2cppUtils::GetMethod("Unity.TextMeshPro.dll",
                                                       "TMPro", "TMP_Text", "get_font");
         static auto set_font = Il2cppUtils::GetMethod("Unity.TextMeshPro.dll",
@@ -309,7 +309,7 @@ namespace GakumasLocal::HookMain {
         static auto UpdateFontAssetData = Il2cppUtils::GetMethod("Unity.TextMeshPro.dll", "TMPro",
                                                                  "TMP_FontAsset", "UpdateFontAssetData");
 
-        auto fontAsset = get_font->Invoke<void*>(TMP_Text_this);
+        auto fontAsset = get_font->Invoke<void*>(TMP_Textself);
 
         if (!updatedFontPtrs.contains(fontAsset)) {
             updatedFontPtrs.emplace(fontAsset);

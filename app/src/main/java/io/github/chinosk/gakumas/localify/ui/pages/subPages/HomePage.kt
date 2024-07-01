@@ -140,10 +140,6 @@ fun HomePage(modifier: Modifier = Modifier,
                     GakuSwitch(modifier, stringResource(R.string.enable_plugin), checked = config.value.enabled) {
                             v -> context?.onEnabledChanged(v)
                     }
-
-                    GakuSwitch(modifier, stringResource(R.string.replace_font), checked = config.value.replaceFont) {
-                            v -> context?.onReplaceFontChanged(v)
-                    }
                 }
             }
             Spacer(Modifier.height(6.dp))

@@ -14,9 +14,9 @@ import kotlinx.serialization.json.jsonObject
 @Serializable
 data class ProgramConfig(
     var checkBuiltInAssets: Boolean = true,
-    var transRemoteZipUrl: String = "",
-    var useRemoteAssets: Boolean = false,
-    var delRemoteAfterUpdate: Boolean = true,
+    var transRemoteZipUrl: String = "https://github.com/NatsumeLS/Gakumas-Translation-Data-EN.git",
+    var useRemoteAssets: Boolean = true,
+    var delRemoteAfterUpdate: Boolean = false,
     var cleanLocalAssets: Boolean = false,
     var p: Boolean = false
 )
