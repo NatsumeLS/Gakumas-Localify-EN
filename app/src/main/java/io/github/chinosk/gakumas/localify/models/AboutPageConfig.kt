@@ -4,11 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AboutPageConfig(
-    val plugin_repo: String = "https://github.com/chinosk6/gakuen-imas-localify",
+    val plugin_repo: String = "https://github.com/NatsumeLS/Gakumas-Localify-EN",
+    val discord: String = "https://natsume.io/GakumasLocalize",
     val main_contributors: List<MainContributors> = listOf(),
     val contrib_img: ContribImg = ContribImg(
-        "https://contrib.rocks/image?repo=chinosk6/gakuen-imas-localify",
-        "https://contrib.rocks/image?repo=chinosk6/GakumasTranslationData"
+        "https://contrib.rocks/image?repo=NatsumeLS/Gakumas-Localify-EN",
+        "https://contrib.rocks/image?repo=NatsumeLS/Gakumas-Translation-Data-EN"
     )
 )
 

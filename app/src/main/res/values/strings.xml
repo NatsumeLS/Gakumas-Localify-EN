@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Gakumas Localify EN</string>
     <string name="gakumas_localify">Gakumas Localify EN</string>
-    <string name="enable_plugin">Enable Plugin (Require Game Restart)</string>
+    <string name="enable_plugin">Enable (Requires Game Restart)</string>
     <string name="enable_free_camera">Enable Free Camera</string>
     <string name="start_game">Start Game / Reload Config</string>
-    <string name="setFpsTitle">Custom Max FPS (0 is Disabled)</string>
+    <string name="setFpsTitle">Custom Max FPS (0 to Disable)</string>
     <string name="unlockAllLive">Unlock All Live</string>
     <string name="liveUseCustomeDress">Live Custom Character</string>
-    <string name="live_costume_head_id">Live Custom Head ID (eg. costume_head_hski-cstm-0002)</string>
-    <string name="live_custome_dress_id">Live Custom Dress ID (eg. hski-cstm-0002)</string>
+    <string name="live_costume_head_id">Live Custom Head ID (e.g. costume_head_hski-cstm-0002)</string>
+    <string name="live_custome_dress_id">Live Custom Dress ID (e.g. hski-cstm-0002)</string>
     <string name="useCustomeGraphicSettings">Use Custom Graphic Settings</string>
     <string name="renderscale">Render Scale (0.5-1.0)</string>
     <string name="text_hook_test_mode">Text Hook Test Mode</string>
@@ -17,7 +17,7 @@
     <string name="max_high">Max</string>
     <string name="very_high">Very High</string>
     <string name="hign">High</string>
-    <string name="middle">Med</string>
+    <string name="middle">Medium</string>
     <string name="low">Low</string>
     <string name="orientation_orig">None</string>
     <string name="orientation_portrait">Portrait</string>
@@ -31,9 +31,9 @@
     <string name="pendulumrange">Pendulum Range</string>
     <string name="average">Average</string>
     <string name="rootweight">Root Weight</string>
-    <string name="uselimit_0_1">Limit Range Multiplier (0 is Unlimited)</string>
+    <string name="uselimit_0_1">Limit Range Multiplier (0 for Unlimited)</string>
     <string name="usearmcorrection">Use Arm Correction</string>
-    <string name="isdirty">IsDirty</string>
+    <string name="isdirty">Is Dirty</string>
     <string name="usescale">Use Breast Scale</string>
     <string name="breast_scale">Breast Scale</string>
     <string name="uselimitmultiplier">Use Limit Multiplier</string>
@@ -53,11 +53,11 @@
     <string name="home">Home</string>
     <string name="advanced_settings">Advanced</string>
     <string name="about_warn_title">WARNING</string>
-    <string name="about_warn_p1">This plugin is for learning and communication only.</string>
-    <string name="about_warn_p2">Using external plugin against the relevant TOS so proceed at your own risk.</string>
+    <string name="about_warn_p1">This plugin was created for educational purposes only.</string>
+    <string name="about_warn_p2">Using external plugin may violate the relevant Terms of Service, so proceed at your own risk.</string>
     <string name="about_about_title">About This Plugin</string>
-    <string name="about_about_p1">This plugin is completely free. If you paid for this plugin, please report the seller.</string>
-    <string name="about_about_p2">Plugin QQ group: 975854705</string>
+    <string name="about_about_p1">This plugin is completely free.</string>
+    <string name="about_about_p2">If you paid for it, please report the seller.</string>
     <string name="project_contribution">Project Contribution</string>
     <string name="plugin_code">Plugin Code</string>
     <string name="contributors">Contributors</string>
@@ -68,7 +68,7 @@
     <string name="use_remote_zip_resource">Use Remote ZIP Resource</string>
     <string name="resource_url">Resource URL</string>
     <string name="download">Download</string>
-    <string name="invalid_zip_file">Invalid file</string>
+    <string name="invalid_zip_file">Invalid File</string>
     <string name="invalid_zip_file_warn">This file is not a valid ZIP translation resource pack.</string>
     <string name="cancel">Cancel</string>
     <string name="downloaded_resource_version">Downloaded Version</string>

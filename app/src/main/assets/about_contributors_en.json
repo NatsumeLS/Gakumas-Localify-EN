@@ -1,29 +1,43 @@
 {
-    "plugin_repo": "https://github.com/chinosk6/gakuen-imas-localify",
+    "plugin_repo": "https://github.com/NatsumeLS/Gakumas-Localify-EN",
+    "discord": "https://natsume.io/GakumasLocalize",
     "main_contributors": [
         {
-            "name": "chinosk (Plugin code)",
+            "name": "NatsumeLS (EN Plugin Code)",
             "links": [
-                {"name": "Github", "link": "https://github.com/chinosk6"},
+                {"name": "Web", "link": "https://natsume.io"},
+                {"name": "GitHub", "link": "https://github.com/NatsumeLS"}
+            ]
+        },
+        {
+            "name": "chinosk (Original Plugin Code)",
+            "links": [
+                {"name": "GitHub", "link": "https://github.com/chinosk6"},
                 {"name": "Bilibili", "link": "https://space.bilibili.com/287061163"}
+            ]
+        },
+        {
+            "name": "Mocca (EN Translation Workflow)",
+            "links": [
+                {"name": "GitHub", "link": "https://github.com/ToastyBuns3939"}
             ]
         },
         {
             "name": "DarwinTree (Translation Workflow)",
             "links": [
-                {"name": "Github", "link": "https://github.com/darwintree"},
+                {"name": "GitHub", "link": "https://github.com/darwintree"},
                 {"name": "Bilibili", "link": "https://space.bilibili.com/6069705"}
             ]
         },
         {
-            "name": "And all other translators",
+            "name": "Other Translators",
             "links": [
-                {"name": "Github", "link": "https://github.com/chinosk6/GakumasTranslationData/graphs/contributors"}
+                {"name": "GitHub", "link": "https://github.com/NatsumeLS/Gakumas-Translation-Data-EN/graphs/contributors"}
             ]
         }
     ],
     "contrib_img": {
-        "plugin": "https://contrib.rocks/image?repo=chinosk6/gakuen-imas-localify",
-        "translation": "https://contrib.rocks/image?repo=chinosk6/GakumasTranslationData"
+        "plugin": "https://contrib.rocks/image?repo=NatsumeLS/Gakumas-Localify-EN",
+        "translation": "https://contrib.rocks/image?repo=NatsumeLS/Gakumas-Translation-Data-EN"
     }
 }

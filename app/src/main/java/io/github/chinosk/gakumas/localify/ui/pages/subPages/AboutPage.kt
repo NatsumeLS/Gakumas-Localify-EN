@@ -86,10 +86,17 @@ fun AboutPage(modifier: Modifier = Modifier,
                 .padding(
                     start = 8.dp, end = 8.dp, top = 8.dp, bottom = 0.dp
                 )) {
-                GakuButton(text = "Github", modifier = modifier
+                GakuButton(text = "GitHub", modifier = modifier
                     .weight(1f)
+                    .padding(0.dp, 0.dp, 8.dp, 0.dp)
                     .sizeIn(maxWidth = 600.dp), onClick = {
                     context?.openUrl(contributorInfo.plugin_repo)
+                })
+                GakuButton(text = "Discord", modifier = modifier
+                    .weight(1f)
+                    .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                    .sizeIn(maxWidth = 600.dp), onClick = {
+                    context?.openUrl(contributorInfo.discord)
                 })
             }
         }
