@@ -37,13 +37,16 @@ jobs:
         sdkmanager --install "cmake;3.22.1"
         echo "cmake.dir=/usr/local/lib/android/sdk/cmake/3.22.1" > local.properties
 
-    - name: Write Branch and Hash Info
+    - name: Get Branch and Hash Info
       run: |
         branch=$(git rev-parse --abbrev-ref HEAD)
         hash=$(git rev-parse --short=7 HEAD)
-        echo "$branch.$hash" > app/src/main/assets/gakumas-local/version.txt
         echo "VERSION=$branch.$hash" >> $GITHUB_ENV
-              
+
+    - name: Pull Assets
+      run: |
+        git clone https://github.com/NatsumeLS/Gakumas-Translation-Data-EN.git app/src/main/assets/gakumas-local
+
     - name: Grant Execute Permission for Gradlew
       run: chmod +x gradlew
 
