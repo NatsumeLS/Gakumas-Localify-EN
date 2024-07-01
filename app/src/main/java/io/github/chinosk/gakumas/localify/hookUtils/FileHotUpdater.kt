@@ -144,7 +144,7 @@ object FileHotUpdater {
             activity.contentResolver.openInputStream(zipFileUri).use {
                 basePath = it?.let { getZipResourcePath(it) }
                 if (basePath == null) {
-                    Log.e(TAG, "getZipResourcePath failed.")
+                    Log.e(TAG, "getZipResourcePath failed")
                     return@updateFilesFromZip
                 }
             }
@@ -163,14 +163,14 @@ object FileHotUpdater {
                     if (deleteAfterUpdate) {
                         activity.contentResolver.delete(zipFileUri, null, null)
                     }
-                    GakumasHookMain.showToast("Update success.")
+                    GakumasHookMain.showToast("Update Success")
                 }
             }
 
         }
         catch (e: java.io.FileNotFoundException) {
             Log.i(TAG, "updateFilesFromZip - file not found: $e")
-            GakumasHookMain.showToast("Update file not found.")
+            GakumasHookMain.showToast("Update file not found")
         }
         catch (e: Exception) {
             Log.e(TAG, "updateFilesFromZip failed: $e")
