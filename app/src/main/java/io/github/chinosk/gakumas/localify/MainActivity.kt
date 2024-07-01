@@ -1,165 +1,198 @@
 package io.github.chinosk.gakumas.localify
 
-
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
-import android.view.View
-import android.view.ViewTreeObserver
-import android.widget.ScrollView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
-import io.github.chinosk.gakumas.localify.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.ViewModelProvider
+import io.github.chinosk.gakumas.localify.hookUtils.FileHotUpdater
 import io.github.chinosk.gakumas.localify.hookUtils.FilesChecker
 import io.github.chinosk.gakumas.localify.hookUtils.MainKeyEventDispatcher
+import io.github.chinosk.gakumas.localify.mainUtils.json
 import io.github.chinosk.gakumas.localify.models.GakumasConfig
+import io.github.chinosk.gakumas.localify.models.ProgramConfig
+import io.github.chinosk.gakumas.localify.models.ProgramConfigViewModel
+import io.github.chinosk.gakumas.localify.models.ProgramConfigViewModelFactory
+import io.github.chinosk.gakumas.localify.ui.pages.MainUI
+import io.github.chinosk.gakumas.localify.ui.theme.GakumasLocalifyTheme
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.serialization.encodeToString
 import java.io.File
 
 
-class MainActivity : AppCompatActivity(), ConfigUpdateListener {
-    override lateinit var binding: ActivityMainBinding
-    private val TAG = "GakumasLocalify"
+class MainActivity : ComponentActivity(), ConfigUpdateListener, IConfigurableActivity<MainActivity> {
+    override lateinit var config: GakumasConfig
+    override lateinit var programConfig: ProgramConfig
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override lateinit var factory: UserConfigViewModelFactory
+    override lateinit var viewModel: UserConfigViewModel
 
-        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        loadConfig()
-        binding.listener = this
+    override lateinit var programConfigFactory: ProgramConfigViewModelFactory
+    override lateinit var programConfigViewModel: ProgramConfigViewModel
 
-        val requestData = intent.getStringExtra("gkmsData")
-        if (requestData != null) {
-            if (requestData == "requestConfig") {
-                onClickStartGame()
-                finish()
-            }
-        }
-        showVersion()
-
-        val scrollView: ScrollView = findViewById(R.id.scrollView)
-        scrollView.viewTreeObserver.addOnScrollChangedListener { onScrollChanged() }
-        onScrollChanged()
-
-        val coordinatorLayout = findViewById<View>(R.id.coordinatorLayout)
-        coordinatorLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                onScrollChanged()
-                coordinatorLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
-            }
-        })
-    }
-
-    override fun onClickStartGame() {
-        val intent = Intent().apply {
-            setClassName("com.bandainamcoent.idolmaster_gakuen", "com.google.firebase.MessagingUnityPlayerActivity")
-            putExtra("gkmsData", getConfigContent())
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-        startActivity(intent)
-    }
-
-    private fun onScrollChanged() {
-        val fab: FloatingActionButton = findViewById(R.id.fabStartGame)
-        val startGameButton: MaterialButton = findViewById(R.id.StartGameButton)
-        val scrollView: ScrollView = findViewById(R.id.scrollView)
-
-        val location = IntArray(2)
-        startGameButton.getLocationOnScreen(location)
-        val buttonTop = location[1]
-        val buttonBottom = buttonTop + startGameButton.height
-
-        val scrollViewLocation = IntArray(2)
-        scrollView.getLocationOnScreen(scrollViewLocation)
-        val scrollViewTop = scrollViewLocation[1]
-        val scrollViewBottom = scrollViewTop + scrollView.height
-
-        val isButtonVisible = buttonTop >= scrollViewTop && buttonBottom <= scrollViewBottom
-
-        if (isButtonVisible) {
-            fab.hide()
-        } else {
-            fab.show()
-        }
-    }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun getConfigContent(): String {
-        val configFile = File(filesDir, "gkms-config.json")
-        return if (configFile.exists()) {
-            configFile.readText()
-        }
-        else {
-            showToast("Initializing configuration file...")
-            "{}"
-        }
-    }
-
     override fun saveConfig() {
+        try {
+            config.pf = false
+            viewModel.configState.value = config.copy( pf = true )  // 更新 UI
+        }
+        catch (e: RuntimeException) {
+            Log.d(TAG, e.toString())
+        }
         val configFile = File(filesDir, "gkms-config.json")
-        configFile.writeText(Gson().toJson(binding.config!!))
+        configFile.writeText(json.encodeToString(config))
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun showVersion() {
-        val titleLabel = findViewById<TextView>(R.id.textViewTitle)
-        val versionLabel = findViewById<TextView>(R.id.textViewResVersion)
-        var versionText = "unknown"
+    override fun saveProgramConfig() {
+        try {
+            programConfig.p = false
+            programConfigViewModel.configState.value = programConfig.copy( p = true )  // 更新 UI
+        }
+        catch (e: RuntimeException) {
+            Log.d(TAG, e.toString())
+        }
+        val configFile = File(filesDir, "localify-config.json")
+        configFile.writeText(json.encodeToString(programConfig))
+    }
+
+    fun getVersion(): List<String> {
+        var versionText = ""
+        var resVersionText = "unknown"
 
         try {
             val stream = assets.open("${FilesChecker.localizationFilesDir}/version.txt")
-            versionText = FilesChecker.convertToString(stream)
+            resVersionText = FilesChecker.convertToString(stream)
 
             val packInfo = packageManager.getPackageInfo(packageName, 0)
             val version = packInfo.versionName
-            titleLabel.text = "${titleLabel.text} $version"
+            val versionCode = packInfo.longVersionCode
+            versionText = "$version ($versionCode)"
         }
         catch (_: Exception) {}
-        versionLabel.text = "Assets Version: $versionText"
+
+        return listOf(versionText, resVersionText)
     }
 
-    private fun loadConfig() {
-        val configStr = getConfigContent()
-        binding.config = try {
-            Gson().fromJson(configStr, GakumasConfig::class.java)
-        }
-        catch (e: JsonSyntaxException) {
-            showToast("Configuration file has been reset: $e")
-            Gson().fromJson("{}", GakumasConfig::class.java)
-        }
-        saveConfig()
-    }
-
-    override fun checkConfigAndUpdateView() {
-        binding.config = binding.config
-        binding.notifyChange()
+    fun openUrl(url: String) {
+        val webpage = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        startActivity(intent)
     }
 
     override fun pushKeyEvent(event: KeyEvent): Boolean {
         return dispatchKeyEvent(event)
     }
 
+    @SuppressLint("RestrictedApi")
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         // Log.d(TAG, "${event.keyCode}, ${event.action}")
         if (MainKeyEventDispatcher.checkDbgKey(event.keyCode, event.action)) {
-            val origDbg = binding.config?.dbgMode
-            if (origDbg != null) {
-                binding.config!!.dbgMode = !origDbg
-                checkConfigAndUpdateView()
-                saveConfig()
-                showToast("Test Mode: ${!origDbg}")
-            }
+            val origDbg = config.dbgMode
+            config.dbgMode = !origDbg
+            checkConfigAndUpdateView()
+            saveConfig()
+            showToast("Test Mode: ${!origDbg}")
         }
         return if (event.action == 1145) true else super.dispatchKeyEvent(event)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        loadConfig()
+
+        factory = UserConfigViewModelFactory(config)
+        viewModel = ViewModelProvider(this, factory)[UserConfigViewModel::class.java]
+
+        programConfigFactory = ProgramConfigViewModelFactory(programConfig,
+            FileHotUpdater.getZipResourceVersion(File(filesDir, "update_trans.zip").absolutePath).toString()
+        )
+        programConfigViewModel = ViewModelProvider(this, programConfigFactory)[ProgramConfigViewModel::class.java]
+
+        setContent {
+            GakumasLocalifyTheme(dynamicColor = false, darkTheme = false) {
+                MainUI(context = this)
+            }
+        }
+    }
+}
+
+
+@Composable
+fun getConfigState(context: MainActivity?, previewData: GakumasConfig?): State<GakumasConfig> {
+    return if (context != null) {
+        context.viewModel.config.collectAsState()
+    }
+    else {
+        val configMSF = MutableStateFlow(previewData!!)
+        configMSF.asStateFlow().collectAsState()
+    }
+}
+
+@Composable
+fun getProgramConfigState(context: MainActivity?, previewData: ProgramConfig? = null): State<ProgramConfig> {
+    return if (context != null) {
+        context.programConfigViewModel.config.collectAsState()
+    }
+    else {
+        val configMSF = MutableStateFlow(previewData ?: ProgramConfig())
+        configMSF.asStateFlow().collectAsState()
+    }
+}
+
+@Composable
+fun getProgramDownloadState(context: MainActivity?): State<Float> {
+    return if (context != null) {
+        context.programConfigViewModel.downloadProgress.collectAsState()
+    }
+    else {
+        val configMSF = MutableStateFlow(0f)
+        configMSF.asStateFlow().collectAsState()
+    }
+}
+
+@Composable
+fun getProgramDownloadAbleState(context: MainActivity?): State<Boolean> {
+    return if (context != null) {
+        context.programConfigViewModel.downloadAble.collectAsState()
+    }
+    else {
+        val configMSF = MutableStateFlow(true)
+        configMSF.asStateFlow().collectAsState()
+    }
+}
+
+@Composable
+fun getProgramLocalResourceVersionState(context: MainActivity?): State<String> {
+    return if (context != null) {
+        context.programConfigViewModel.localResourceVersion.collectAsState()
+    }
+    else {
+        val configMSF = MutableStateFlow("null")
+        configMSF.asStateFlow().collectAsState()
+    }
+}
+
+@Composable
+fun getProgramDownloadErrorStringState(context: MainActivity?): State<String> {
+    return if (context != null) {
+        context.programConfigViewModel.errorString.collectAsState()
+    }
+    else {
+        val configMSF = MutableStateFlow("")
+        configMSF.asStateFlow().collectAsState()
     }
 }

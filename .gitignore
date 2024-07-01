@@ -6,3 +6,7 @@
 /app/debug
 /app/release
 /local.properties
+/.vs
+/.kotlin
+/app/debug
+/app/release

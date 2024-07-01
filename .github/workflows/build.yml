@@ -60,6 +60,7 @@ jobs:
         keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
         keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
         buildToolsVersion: 33.0.0
+      continue-on-error: true
 
     - name: Rename Signed APK
       run: |
